@@ -1,0 +1,29 @@
+from sqlalchemy import Column, Integer, String, ForeignKey
+from typing import Dict, Any
+from project import db
+from project.ORM.domain.i_dto import IDTO
+
+class WeatherStation(db.Model, IDTO):
+    __tablename__ = 'weather_station'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    mac_address = Column(String(50))
+    name = Column(String(50))
+    location = Column(String(50))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    group_id = Column(Integer, ForeignKey('group.id'))
+
+    info_list = db.relationship("Info", backref="station")
+
+    def put_into_dto(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "mac_address": self.mac_address,
+            "name": self.name,
+            "location": self.location,
+            "user_id": self.user_id,
+            "group_id": self.group_id,
+        }
+
+    @staticmethod
+    def create_from_dto(_dict: Dict[str, Any]) -> object:
+        return WeatherStation(mac_address=_dict["mac_address"], name=_dict["name"], location=_dict["location"], user_id=_dict["user_id"], group_id=_dict["group_id"])
