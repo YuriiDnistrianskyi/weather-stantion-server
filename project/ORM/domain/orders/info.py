@@ -1,13 +1,13 @@
-from sqlalchemy import Column, Integer, String, ForeignKey,
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from typing import Dict, Any
 from project import db
 from project.ORM.domain.i_dto import IDTO
 
 class Info(db.Model, IDTO):
-    __tablename__ = "info"
+    __tablename__ = "Info"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    weather_station_id = Column(Integer, ForeignKey("weatherStations.id"), nullable=False)
-    date = Column(String)
+    weather_station_id = Column(Integer, ForeignKey("WeatherStation.id"), nullable=False)
+    date = Column(DateTime)
     temperature = Column(Integer)
     humidity = Column(Integer)
     CO2 = Column(Integer)
@@ -20,7 +20,7 @@ class Info(db.Model, IDTO):
             "date": self.date,
             "temperature": self.temperature,
             "humidity": self.humidity,
-            "CO2": self.CO2,
+            "CO2": self.CO2
         }
 
     @staticmethod

@@ -19,6 +19,7 @@ def init_db(app: Flask) -> None:
 
     db.init_app(app)
 
+    import project.ORM.domain
     with app.app_context():
         db.create_all()
         print("Create tables")

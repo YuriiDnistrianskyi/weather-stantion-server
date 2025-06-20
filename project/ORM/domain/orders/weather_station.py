@@ -4,15 +4,16 @@ from project import db
 from project.ORM.domain.i_dto import IDTO
 
 class WeatherStation(db.Model, IDTO):
-    __tablename__ = 'weather_station'
+    __tablename__ = "WeatherStation"
     id = Column(Integer, primary_key=True, autoincrement=True)
     mac_address = Column(String(50))
     name = Column(String(50))
     location = Column(String(50))
-    user_id = Column(Integer, ForeignKey('user.id'))
-    group_id = Column(Integer, ForeignKey('group.id'))
+    user_id = Column(Integer, ForeignKey("User.id"))
+    group_id = Column(Integer, ForeignKey("Group.id"))
 
     info_list = db.relationship("Info", backref="station")
+    group = db.relationship("Group", backref="station")
 
     def put_into_dto(self) -> Dict[str, Any]:
         return {
