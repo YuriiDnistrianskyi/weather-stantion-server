@@ -18,7 +18,7 @@ class GeneralDAO(ABC):
         self._session.add(obj)
         self._session.commit()
 
-    def update(self, obj_id: int, obj: __domain_type) -> __domain_type:
+    def update(self, obj_id: int, obj: __domain_type) -> None:
         domain_obj = self._session.query(self.__domain_type).filter_by(id=obj_id).first()
         mapper: Mapper = inspect(type(obj))
         columns = mapper.columns.items()
