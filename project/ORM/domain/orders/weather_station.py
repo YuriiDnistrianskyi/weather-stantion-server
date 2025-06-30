@@ -13,7 +13,8 @@ class WeatherStation(db.Model, IDTO):
     group_id = Column(Integer, ForeignKey("Group.id"))
 
     info_list = db.relationship("Info", backref="station")
-    group = db.relationship("Group", backref="station")
+    group = db.relationship("Group", back_populates="weather_station", uselist=False)
+    owner = db.relationship("User", backref="weather_stations")
 
     def put_into_dto(self) -> Dict[str, Any]:
         return {

@@ -11,7 +11,7 @@ class User(db.Model, IDTO):
     email = Column(String(50), nullable=False)
     password = Column(String(50), nullable=False)
 
-    weather_stations = db.relationship("WeatherStation", back_populates="owner")
+    # weather_stations = db.relationship("WeatherStation", back_populates="owner")
     groups = db.relationship("Group", secondary="UserGroup", back_populates="users")
 
     def put_into_dto(self):
@@ -24,5 +24,6 @@ class User(db.Model, IDTO):
         }
 
     @staticmethod
-    def create_from_dto(self, _dict: Dict[str, Any]) -> object:
-        return User(first_name=_dict["first_name"], last_name=_dict["last_name"], email=_dict["email"], password=_dict["password"])
+    def create_from_dto(_dict: Dict[str, Any]) -> object:
+        return User(**_dict)
+        # return User(first_name=_dict["first_name"], last_name=_dict["last_name"], email=_dict["email"], password=_dict["password"])

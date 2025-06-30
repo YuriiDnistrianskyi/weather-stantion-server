@@ -5,21 +5,21 @@ from sqlalchemy import inspect
 from sqlalchemy.orm import Mapper
 
 class GeneralDAO(ABC):
-    __domain_type = None
+    _domain_type = None
     _session = db.session
 
-    def get_all(self) -> List[__domain_type]:
-        return self._session.query(self.__domain_type)
+    def get_all(self) -> List[_domain_type]:
+        return self._session.query(self._domain_type).all()
 
-    def get_by_id(self, obj_id: int) -> __domain_type:
-        return self._session.query(self.__domain_type).filter_by(id=obj_id).first()
+    def get_by_id(self, obj_id: int) -> _domain_type:
+        return self._session.query(self._domain_type).filter_by(id=obj_id).first()
 
-    def add(self, obj: __domain_type) -> None:
+    def add(self, obj: _domain_type) -> None:
         self._session.add(obj)
         self._session.commit()
 
-    def update(self, obj_id: int, obj: __domain_type) -> None:
-        domain_obj = self._session.query(self.__domain_type).filter_by(id=obj_id).first()
+    def update(self, obj_id: int, obj: _domain_type) -> None:
+        domain_obj = self._session.query(self._domain_type).filter_by(id=obj_id).first()
         mapper: Mapper = inspect(type(obj))
         columns = mapper.columns.items()
         for column_name, column_obj in columns:
@@ -29,7 +29,7 @@ class GeneralDAO(ABC):
         self._session.commit()
 
     def delete(self, obj_id: int) -> None :
-        domain_obj = self._session.query(self.__domain_type).filter_by(id=obj_id).first()
+        domain_obj = self._session.query(self._domain_type).filter_by(id=obj_id).first()
         self._session.delete(domain_obj)
         try:
             self._session.commit()

@@ -1,5 +1,5 @@
 from project.ORM.controller.general_controller import GeneralController
-from project.ORM.service.orders import group_service
+from project.ORM.service import group_service
 from project.ORM.domain.orders.group import Group
 
 class GroupController(GeneralController):

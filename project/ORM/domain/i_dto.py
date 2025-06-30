@@ -8,5 +8,5 @@ class IDTO():
 
     @staticmethod
     @abstractmethod
-    def create_from_dto(self, dict: Dict[str, Any]) -> object:
+    def create_from_dto(_dict: Dict[str, Any]) -> object:
         pass

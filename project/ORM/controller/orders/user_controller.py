@@ -1,5 +1,5 @@
 from project.ORM.controller.general_controller import GeneralController
-from project.ORM.service.orders import user_service
+from project.ORM.service import user_service
 from project.ORM.domain.orders.user import User
 
 class UserController(GeneralController):

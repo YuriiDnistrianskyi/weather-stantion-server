@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import database_exists, create_database
+from .route import register_routes
 from my import db_password
 
 db = SQLAlchemy()
@@ -8,6 +9,7 @@ db = SQLAlchemy()
 def create_app() -> Flask:
     app = Flask(__name__)
     init_db(app)
+    register_routes(app)
     return app
 
 def init_db(app: Flask) -> None:
