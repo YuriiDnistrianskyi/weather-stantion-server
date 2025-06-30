@@ -23,7 +23,8 @@ def create_user() -> Response:
     print(type(data))
     new_user = User.create_from_dto(_dict=data)
     user_controller.add(new_user)
-    return make_response(jsonify(new_user), HTTPStatus.CREATED) #
+    return_user = new_user.put_into_dto()
+    return make_response(jsonify(return_user), HTTPStatus.CREATED)
 
 @user_bp.put("/<int:user_id>")
 def update_user(user_id: int) -> Response:

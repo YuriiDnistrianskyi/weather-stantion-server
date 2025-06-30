@@ -23,7 +23,7 @@ class GeneralDAO(ABC):
         mapper: Mapper = inspect(type(obj))
         columns = mapper.columns.items()
         for column_name, column_obj in columns:
-            if not column_obj.primaty_key:
+            if not column_obj.primary_key:
                 value = getattr(obj, column_name)
                 setattr(domain_obj, column_name, value)
         self._session.commit()
