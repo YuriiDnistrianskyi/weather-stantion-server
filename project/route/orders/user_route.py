@@ -8,8 +8,8 @@ user_bp = Blueprint("user", __name__, url_prefix="/user")
 @user_bp.get("")
 def get_users() -> Response:
     users = user_controller.get_all()
-    user_dto = [user.put_into_dto() for user in users]
-    return make_response(jsonify(user_dto), HTTPStatus.OK)
+    users_dto = [user.put_into_dto() for user in users]
+    return make_response(jsonify(uses_dto), HTTPStatus.OK)
 
 @user_bp.get("/<int:user_id>")
 def get_user(user_id: int) -> Response:
