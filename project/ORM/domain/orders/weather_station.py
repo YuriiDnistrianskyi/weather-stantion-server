@@ -12,7 +12,6 @@ class WeatherStation(db.Model, IDTO):
     user_id = Column(Integer, ForeignKey("User.id"))
     group_id = Column(Integer, ForeignKey("Group.id"))
 
-    info_list = db.relationship("Info", backref="station")
     group = db.relationship("Group", back_populates="weather_station", uselist=False)
     owner = db.relationship("User", backref="weather_stations")
 
@@ -22,8 +21,8 @@ class WeatherStation(db.Model, IDTO):
             "mac_address": self.mac_address,
             "name": self.name,
             "location": self.location,
-            "user_id": self.user_id,
-            "group_id": self.group_id,
+            "user": self.owner.put_into_dto() if self.owner is not None else None,
+            "group": self.group.put_into_dto() if self.group is not None else None
         }
 
     @staticmethod

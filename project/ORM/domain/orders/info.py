@@ -12,11 +12,12 @@ class Info(db.Model, IDTO):
     humidity = Column(Float)
     CO2 = Column(Float)
 
+    weather_station = db.relationship("WeatherStation", backref="info")
 
     def put_into_dto(self) -> Dict[str, Any]:
         return {
             "id": self.id,
-            "weather_station_id": self.weather_station_id,
+            "weather_station": self.weather_station.put_into_dto() if self.weather_station is not None else None,
             "date": self.date,
             "temperature": self.temperature,
             "humidity": self.humidity,
