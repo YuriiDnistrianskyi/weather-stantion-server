@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, Float, ForeignKey, DateTime
 from typing import Dict, Any
 from project import db
 from project.ORM.domain.i_dto import IDTO
@@ -8,9 +8,9 @@ class Info(db.Model, IDTO):
     id = Column(Integer, primary_key=True, autoincrement=True)
     weather_station_id = Column(Integer, ForeignKey("WeatherStation.id"), nullable=False)
     date = Column(DateTime)
-    temperature = Column(Integer)
-    humidity = Column(Integer)
-    CO2 = Column(Integer)
+    temperature = Column(Float)
+    humidity = Column(Float)
+    CO2 = Column(Float)
 
 
     def put_into_dto(self) -> Dict[str, Any]:
