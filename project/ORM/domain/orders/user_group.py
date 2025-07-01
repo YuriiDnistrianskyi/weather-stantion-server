@@ -17,5 +17,5 @@ class UserGroup(db.Model, IDTO):
             "group_id": self.group.put_into_dto() if self.group is not None else None
         }
 
-    def create_from_dto(self, _dict: Dict[str, Any]) -> object:
+    def create_from_dto(_dict: Dict[str, Any]) -> object:
         return UserGroup(user_id=_dict["user_id"], group_id=_dict["group_id"])
