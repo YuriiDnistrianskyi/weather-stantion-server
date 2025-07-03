@@ -9,6 +9,9 @@ class UserGroupService(GeneralService):
     def get_by_id(self, user_id:int , group_id: int) -> _class_type:
         return self._dao.get_by_id(user_id, group_id)
 
+    def add(self, obj: _class_type) -> None:
+        self._dao.add(obj)
+
     def update(self, user_id: int, group_id: int, new_user_group: _class_type) -> None:
         self._dao.update(user_id, group_id, new_user_group)
 
