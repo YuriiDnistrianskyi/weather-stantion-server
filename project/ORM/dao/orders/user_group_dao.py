@@ -15,7 +15,6 @@ class UserGroupDAO(GeneralDAO):
         mapper: Mapper = inspect(type(new_user_group))
         columns = mapper.columns.items()
         for column_name, column_obj in columns:
-            # if not column_obj.primary_key:
             value = getattr(new_user_group, column_name)
             setattr(old_user_group, column_name, value)
         self._session.commit()
