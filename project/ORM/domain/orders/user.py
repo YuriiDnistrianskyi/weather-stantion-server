@@ -12,7 +12,7 @@ class User(db.Model, IDTO):
     password = Column(String(50), nullable=False)
 
     # weather_stations = db.relationship("WeatherStation", back_populates="owner")
-    groups = db.relationship("Group", secondary="UserGroup", back_populates="users")
+    # groups = db.relationship("Group", secondary="UserGroup", back_populates="users")
 
     def put_into_dto(self):
         return {

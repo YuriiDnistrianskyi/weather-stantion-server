@@ -11,9 +11,9 @@ class Group(db.Model, IDTO):
     name = Column(String(50))
     owner_id = Column(Integer, ForeignKey("User.id"))
 
-    weather_station = db.relationship("WeatherStation", back_populates="group", uselist=False) #
+    weather_station = db.relationship("WeatherStation", back_populates="group", uselist=False)
     owner = db.relationship("User", backref="group_owner")
-    users = db.relationship("User", secondary="UserGroup", back_populates="groups") #
+    # users = db.relationship("User", secondary="UserGroup", back_populates="groups")
 
     def put_into_dto(self) -> Dict[str, Any]:
         return {

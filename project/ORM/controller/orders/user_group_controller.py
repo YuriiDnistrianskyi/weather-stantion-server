@@ -1,6 +1,9 @@
+from flask import abort
+from http import HTTPStatus
 from project.ORM.controller.general_controller import GeneralController
 from project.ORM.service import user_group_service
 from project.ORM.domain.orders.user_group import UserGroup
+from project.Models.NotFoundException import NotFoundException
 
 class UserGroupController(GeneralController):
     _service = user_group_service
@@ -10,7 +13,15 @@ class UserGroupController(GeneralController):
         return self._service.get_by_id(user_id, group_id)
 
     def update(self, user_id: int, group_id: int, new_user_group: _class_type) -> None:
-        self._service.update(user_id, group_id, new_user_group)
+        try:
+            self._service.update(user_id, group_id, new_user_group)
+        except NotFoundException as ex:
+            self._logger.writing(ex)
+            abort(HTTPStatus.NOT_FOUND)
 
     def delete(self, user_id: int, group_id: int) -> None:
-        self._service.delete(user_id, group_id)
+        try:
+            self._service.delete(user_id, group_id)
+        except NotFoundException as ex:
+            self._logger.writing(ex)
+            abort(HTTPStatus.NOT_FOUND)

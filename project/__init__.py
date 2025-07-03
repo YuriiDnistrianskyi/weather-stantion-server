@@ -6,6 +6,13 @@ from my import db_password
 
 db = SQLAlchemy()
 
+# import logging
+#
+# logging.basicConfig(
+#     level=logging.DEBUG,  # або INFO
+#     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+# )
+
 def create_app() -> Flask:
     app = Flask(__name__)
     init_db(app)
