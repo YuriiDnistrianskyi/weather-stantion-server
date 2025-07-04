@@ -6,12 +6,13 @@ from my import db_password
 
 db = SQLAlchemy()
 
-# import logging
-#
-# logging.basicConfig(
-#     level=logging.DEBUG,  # або INFO
-#     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-# )
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,  # або INFO
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logging.warning("Test")
 
 def create_app() -> Flask:
     app = Flask(__name__)
@@ -24,11 +25,11 @@ def init_db(app: Flask) -> None:
 
     if not database_exists(app.config["SQLALCHEMY_DATABASE_URI"]):
         create_database(app.config["SQLALCHEMY_DATABASE_URI"])
-        print("Create database")
+        logging.info("Database created successfully")
 
     db.init_app(app)
 
     import project.ORM.domain
     with app.app_context():
         db.create_all()
-        print("Create tables")
+        logging.info("Tables created successfully")

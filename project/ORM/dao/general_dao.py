@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import List
 
-from project import db #
+from project import db
 from sqlalchemy import inspect
 from sqlalchemy.orm import Mapper
 
@@ -16,7 +16,10 @@ class GeneralDAO(ABC):
         return self._session.query(self._domain_type).all()
 
     def get_by_id(self, obj_id: int) -> _domain_type:
-        return self._session.query(self._domain_type).filter_by(id=obj_id).first()
+        find_element = self._session.query(self._domain_type).filter_by(id=obj_id).first()
+        if not find_element:
+            raise NotFoundException(f"Not found {self._domain_type} (id={obj_id})")
+        return find_element
 
     def add(self, obj: _domain_type) -> None:
         self._session.add(obj)

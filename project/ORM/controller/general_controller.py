@@ -2,9 +2,7 @@ from flask import abort
 from http import HTTPStatus
 import logging
 
-# from project.Models.ConflictException import ConflictException
 from project.Models.NotFoundException import NotFoundException
-
 
 class GeneralController:
     _service = None
@@ -15,10 +13,11 @@ class GeneralController:
         return self._service.get_all()
 
     def get_by_id(self, obj_id: int) -> _class_type:
-        element = self._service.get_by_id(obj_id)
-        if not element:
+        try:
+            return self._service.get_by_id(obj_id)
+        except NotFoundException as ex:
+            self._logger.warning(ex)
             abort(HTTPStatus.NOT_FOUND)
-        return element
 
     def add(self, obj: _class_type) -> None:
         if not obj:
@@ -30,9 +29,6 @@ class GeneralController:
             abort(HTTPStatus.UNPROCESSABLE_ENTITY)
         try:
             self._service.update(obj_id, obj)
-        # except ConflictException as ex:
-        #     self._logger.warning(ex)
-        #     abort(HTTPStatus.CONFLICT)
         except NotFoundException as ex:
             self._logger.warning(ex)
             abort(HTTPStatus.NOT_FOUND)
