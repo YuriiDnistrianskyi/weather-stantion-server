@@ -14,3 +14,7 @@ def unprocessable_entity(error: int) -> Response:
 @error_handle_bp.app_errorhandler(HTTPStatus.CONFLICT)
 def conflict(error: int) -> Response:
     return make_response("Conflict data", HTTPStatus.CONFLICT)
+
+@error_handle_bp.app_errorhandler(HTTPStatus.METHOD_NOT_ALLOWED)
+def method_not_allowed(error: int) -> Response:
+    return make_response("Method not allowed", HTTPStatus.METHOD_NOT_ALLOWED)
