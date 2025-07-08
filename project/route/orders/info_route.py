@@ -1,7 +1,10 @@
 from http import HTTPStatus
-from flask import Blueprint, Response, make_response, jsonify, request
+from flask import Blueprint, Response, make_response, jsonify, request, session
+from datetime import datetime
+from project import db
 from project.ORM.controller import info_controller
 from project.ORM.domain.orders.info import Info
+from project.ORM.domain.orders.weather_station import WeatherStation
 
 info_bp = Blueprint("info", __name__, url_prefix="/info")
 
@@ -19,7 +22,21 @@ def get_info(info_id: int) -> Response:
 
 @info_bp.post("")
 def create_info() -> Response:
-    data = request.get_json()
+    data_request = request.get_json()
+
+    weather_station_id = db.session.query(WeatherStation).filter(WeatherStation.mac_address == data_request["mac_address"]).first().id
+
+    date = datetime.now()
+    formatted_date = date.strftime("%Y-%m-%d %H:%M:%S")
+
+    data = {
+        "weather_station_id": weather_station_id,
+        "date": formatted_date,
+        "temperature": data_request["t"],
+        "humidity": data_request["h"],
+        "CO2": data_request["c"]
+    }
+
     new_info = Info.create_from_dto(_dict=data)
     info_controller.add(new_info)
     return_info = new_info.put_into_dto()

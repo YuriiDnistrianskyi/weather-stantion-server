@@ -18,3 +18,7 @@ def conflict(error: int) -> Response:
 @error_handle_bp.app_errorhandler(HTTPStatus.METHOD_NOT_ALLOWED)
 def method_not_allowed(error: int) -> Response:
     return make_response("Method not allowed", HTTPStatus.METHOD_NOT_ALLOWED)
+
+# @error_handle_bp.app_errorhandler(HTTPStatus.BAD_REQUEST)
+# def bad_request(error: int) -> Response:
+#     return make_response("Bad request", HTTPStatus.BAD_REQUEST)

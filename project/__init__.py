@@ -9,10 +9,9 @@ db = SQLAlchemy()
 import logging
 
 logging.basicConfig(
-    level=logging.INFO,  # або INFO
+    level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logging.warning("Test")
 
 def create_app() -> Flask:
     app = Flask(__name__)
