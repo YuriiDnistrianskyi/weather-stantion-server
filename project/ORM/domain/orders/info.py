@@ -10,7 +10,7 @@ class Info(db.Model, IDTO):
     date = Column(DateTime)
     temperature = Column(Float)
     humidity = Column(Float)
-    CO2 = Column(Float)
+    pressure = Column(Float)
 
     weather_station = db.relationship("WeatherStation", backref="info")
 
@@ -21,9 +21,9 @@ class Info(db.Model, IDTO):
             "date": self.date,
             "temperature": self.temperature,
             "humidity": self.humidity,
-            "CO2": self.CO2
+            "pressure": self.pressure
         }
 
     @staticmethod
     def create_from_dto(_dict: Dict[str, Any]) -> object:
-        return Info(weather_station_id=_dict["weather_station_id"], date=_dict["date"], temperature=_dict["temperature"], humidity=_dict["humidity"], CO2=_dict["CO2"])
+        return Info(**_dict)

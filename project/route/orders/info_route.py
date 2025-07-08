@@ -34,7 +34,7 @@ def create_info() -> Response:
         "date": formatted_date,
         "temperature": data_request["t"],
         "humidity": data_request["h"],
-        "CO2": data_request["c"]
+        "pressure": data_request["p"]
     }
 
     new_info = Info.create_from_dto(_dict=data)
