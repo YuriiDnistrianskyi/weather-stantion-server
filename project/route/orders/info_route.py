@@ -31,7 +31,7 @@ def create_info() -> Response:
 
     data = {
         "weather_station_id": weather_station_id,
-        "date": formatted_date,
+        "_date": formatted_date,
         "temperature": data_request["t"],
         "humidity": data_request["h"],
         "pressure": data_request["p"]

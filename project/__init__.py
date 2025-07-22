@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 from sqlalchemy_utils import database_exists, create_database
+import os
 from .route import register_routes
 from my import db_password
 
@@ -16,6 +18,7 @@ logging.basicConfig(
 def create_app() -> Flask:
     app = Flask(__name__)
     init_db(app)
+    create_functions(app)
     register_routes(app)
     return app
 
@@ -32,3 +35,23 @@ def init_db(app: Flask) -> None:
     with app.app_context():
         db.create_all()
         logging.info("Tables created successfully")
+
+def create_functions(app: Flask) -> None:
+    with app.app_context():
+        path_file = os.path.join(os.path.dirname(__file__), 'db', 'functions')
+        function_files = ['get_max_min_temperature.sql']
+
+        for function_file in function_files:
+            with open(os.path.join(path_file, function_file), 'r', encoding='utf-8') as file:
+                file_content = file.read()
+            drop_part, create_part = file_content.split('CREATE', 1)
+            print(drop_part)
+            print("-----")
+            print(create_part)
+            db.session.execute(text(drop_part + ';'))
+            db.session.execute(text('CREATE' + create_part))
+
+            db.session.commit()
+
+        logging.info("Functions created successfully")
+
