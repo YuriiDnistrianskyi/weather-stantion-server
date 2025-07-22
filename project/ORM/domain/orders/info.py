@@ -7,7 +7,7 @@ class Info(db.Model, IDTO):
     __tablename__ = "Info"
     id = Column(Integer, primary_key=True, autoincrement=True)
     weather_station_id = Column(Integer, ForeignKey("WeatherStation.id"), nullable=False)
-    date = Column(DateTime)
+    _date = Column(DateTime)
     temperature = Column(Float)
     humidity = Column(Float)
     pressure = Column(Float)
@@ -18,7 +18,7 @@ class Info(db.Model, IDTO):
         return {
             "id": self.id,
             "weather_station": self.weather_station.put_into_dto() if self.weather_station is not None else None,
-            "date": self.date,
+            "date": self._date,
             "temperature": self.temperature,
             "humidity": self.humidity,
             "pressure": self.pressure
