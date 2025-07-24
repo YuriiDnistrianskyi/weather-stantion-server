@@ -5,15 +5,29 @@ from project.ORM.domain.orders.info import Info
 
 info_bp = Blueprint("info", __name__, url_prefix="/info")
 
-@info_bp.get("")
-def get_all_info() -> Response:
-    all_info = info_controller.get_all()
-    all_info_dto = [info.put_into_dto() for info in all_info]
-    return make_response(jsonify(all_info_dto), HTTPStatus.OK)
+# @info_bp.get("")
+# def get_all_info() -> Response:
+#     all_info = info_controller.get_all()
+#     all_info_dto = [info.put_into_dto() for info in all_info]
+#     return make_response(jsonify(all_info_dto), HTTPStatus.OK)
 
 @info_bp.get("/<int:info_id>")
 def get_info(info_id: int) -> Response:
     info = info_controller.get_by_id(info_id)
+    return_info = info.put_into_dto()
+    return make_response(jsonify(return_info), HTTPStatus.OK)
+
+@info_bp.get("/all") #
+def get_all_info_by_weather_station() -> Response:
+    weather_station_id = request.args.get("weather_station_id")
+    info_list = info_controller.get_all_by_weather_station_id(weather_station_id)
+    return_info = [info.put_into_dto() for info in info_list]
+    return make_response(jsonify(return_info), HTTPStatus.OK)
+
+@info_bp.get("")
+def get_info_by_weather_station() -> Response:
+    weather_station_id = request.args.get("weather_station_id")
+    info = info_controller.get_by_weather_station_id(weather_station_id)
     return_info = info.put_into_dto()
     return make_response(jsonify(return_info), HTTPStatus.OK)
 
