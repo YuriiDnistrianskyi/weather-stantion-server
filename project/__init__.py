@@ -1,10 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import database_exists, create_database
-import os
 from .route import register_routes
 from my import db_password
+import os
 
 db = SQLAlchemy()
 
@@ -45,9 +45,7 @@ def create_functions(app: Flask) -> None:
             with open(os.path.join(path_file, function_file), 'r', encoding='utf-8') as file:
                 file_content = file.read()
             drop_part, create_part = file_content.split('CREATE', 1)
-            print(drop_part)
-            print("-----")
-            print(create_part)
+
             db.session.execute(text(drop_part + ';'))
             db.session.execute(text('CREATE' + create_part))
 
