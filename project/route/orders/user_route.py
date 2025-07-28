@@ -20,7 +20,6 @@ def get_user(user_id: int) -> Response:
 @user_bp.post("")
 def create_user() -> Response:
     data = request.get_json()
-    print(type(data))
     new_user = User.create_from_dto(_dict=data)
     user_controller.add(new_user)
     return_user = new_user.put_into_dto()
