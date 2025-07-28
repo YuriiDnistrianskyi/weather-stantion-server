@@ -2,7 +2,7 @@ from flask import abort
 from http import HTTPStatus
 import logging
 
-from project.Models.NotFoundException import NotFoundException
+from project.Exceptions.NotFoundException import NotFoundException
 
 class GeneralController:
     _service = None

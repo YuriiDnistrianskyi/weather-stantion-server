@@ -1,8 +1,10 @@
 from typing import List
+from project import db
 
 class GeneralService:
     _dao = None
     _class_type = None
+    _session = db.session
 
     def get_all(self) -> List[_class_type]:
         return self._dao.get_all()
