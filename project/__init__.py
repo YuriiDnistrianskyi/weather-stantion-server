@@ -21,6 +21,7 @@ def create_app() -> Flask:
     init_db(app)
     create_db_functions(app)
     register_routes(app)
+
     return app
 
 def init_db(app: Flask) -> None:
