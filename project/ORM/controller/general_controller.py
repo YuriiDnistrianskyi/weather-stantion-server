@@ -3,6 +3,7 @@ from http import HTTPStatus
 import logging
 
 from project.Exceptions.NotFoundException import NotFoundException
+from project.Exceptions.ConflictException import ConflictException
 
 class GeneralController:
     _service = None
@@ -22,7 +23,14 @@ class GeneralController:
     def add(self, obj: _class_type) -> None:
         if not obj:
             abort(HTTPStatus.UNPROCESSABLE_ENTITY)
-        self._service.add(obj)
+        try:
+            self._service.add(obj)
+        except ConflictException as ex:
+            self._logger.warning(ex)
+            abort(HTTPStatus.CONFLICT)
+        except NotFoundException as ex:
+            self._logger.warning(ex)
+            abort(HTTPStatus.NOT_FOUND)
 
     def update(self, obj_id: int, obj: _class_type) -> None:
         if not obj_id:
