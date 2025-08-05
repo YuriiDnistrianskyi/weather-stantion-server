@@ -40,7 +40,7 @@ def create_info() -> Response:
     new_info = Info.create_from_dto(_dict=data_request)
     info_controller.add(new_info)
     return_info = new_info.put_into_dto()
-    return make_response(jsonify(return_info), HTTPStatus.OK)
+    return make_response(jsonify(return_info), HTTPStatus.CREATED)
 
 @info_bp.put("/<int:info_id>")
 def update_info(info_id: int) -> Response:

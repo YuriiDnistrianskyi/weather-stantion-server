@@ -5,7 +5,7 @@ from project.ORM.domain.orders.weather_station import WeatherStation
 
 weather_station_bp = Blueprint("weather_station", __name__, url_prefix="/weather_station")
 
-@weather_station_bp.get("")
+@weather_station_bp.get("/all")
 def get_weather_stations() -> Response:
     weather_stations = weather_station_controller.get_all()
     weather_stations_dto = [weather_station.put_into_dto() for weather_station in weather_stations]
@@ -16,6 +16,13 @@ def get_weather_station(weather_station_id: int) -> Response:
     weather_station = weather_station_controller.get_by_id(weather_station_id)
     return_weather_station = weather_station.put_into_dto()
     return make_response(jsonify(return_weather_station), HTTPStatus.OK)
+
+@weather_station_bp.get("")
+def get_weather_stations_by_user_id():
+    user_id = request.args.get("user_id")
+    weather_stations = weather_station_controller.get_by_user_id(user_id)
+    weather_stations_dto = [weather_station.put_into_dto() for weather_station in weather_stations]
+    return make_response(jsonify(weather_stations_dto), HTTPStatus.OK)
 
 @weather_station_bp.post("")
 def create_weather_station() -> Response:
