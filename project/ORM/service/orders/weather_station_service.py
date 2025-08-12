@@ -4,12 +4,20 @@ from project.ORM.service.general_service import GeneralService
 from project.ORM.dao import weather_station_dao
 from project.ORM.domain.orders.weather_station import WeatherStation
 from project.ORM.domain.orders.user import User
-from project.Exceptions.NotFoundException import NotFoundException
-from project.Exceptions.ConflictException import ConflictException
+# from project.Exceptions.NotFoundException import NotFoundException
+# from project.Exceptions.ConflictException import ConflictException
+from project.Exceptions.Exceptions import NotFoundException, ConflictException, ForbiddenAccessException
 
 class WeatherStationService(GeneralService):
     _dao = weather_station_dao
     _class_type = WeatherStation
+
+    def get_by_id(self, obj_id: int, user_id: int) -> _class_type:
+        users_weather_station = db.session.query(WeatherStation).filter(WeatherStation.user_id == user_id).all()
+        for weather_station in users_weather_station:
+            if weather_station.id == obj_id:
+                return self._dao.get_by_id(obj_id)
+        raise ForbiddenAccessException(f"User (id = {user_id}) does not have access to weather station (id = {obj_id})")
 
     def get_by_user_id(self, user_id: int) -> List[WeatherStation]:
         return self._dao.get_by_user_id(user_id)
@@ -23,4 +31,4 @@ class WeatherStationService(GeneralService):
             if obj.mac_address == weather_station.mac_address:
                 raise ConflictException("weather station already exists (mac_address)")
         # create group
-        return self._dao.create(obj)
+        return self._dao.add(obj)
