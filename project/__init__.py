@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_jwt_extended import JWTManager
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import database_exists, create_database
 from .route import register_routes
 from my import db_password
 import os
+from config import Config
 
 db = SQLAlchemy()
 
@@ -17,6 +19,9 @@ logging.basicConfig(
 
 def create_app() -> Flask:
     app = Flask(__name__)
+    app.config.from_object(Config)
+    jwt = JWTManager(app)
+
     init_db(app)
     create_db_functions(app)
     register_routes(app)
