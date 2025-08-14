@@ -17,6 +17,7 @@ def login() -> Response:
     if user and user.verify_password(data['password']):
         access_token = create_access_token(identity=str(user.id))
         refresh_token = create_refresh_token(identity=str(user.id))
+        additional_claims = {'is_admin': user.is_admin}
         return make_response(jsonify(access_token=access_token, refresh_token=refresh_token), HTTPStatus.OK)
     return make_response(jsonify({'message': 'Invalid email or password'}), HTTPStatus.BAD_REQUEST)
 

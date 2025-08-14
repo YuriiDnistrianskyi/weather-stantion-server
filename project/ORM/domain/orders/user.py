@@ -11,6 +11,7 @@ class User(db.Model, IDTO):
     last_name = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
     password_hash = Column(String(255), nullable=False)
+    is_admin = Column(Boolean, default=False)
 
     # weather_stations = db.relationship("WeatherStation", back_populates="owner")
     # groups = db.relationship("Group", secondary="UserGroup", back_populates="users")
