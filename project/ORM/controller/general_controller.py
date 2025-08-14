@@ -1,8 +1,6 @@
 from flask import abort
 from http import HTTPStatus
 import logging
-# from project.Exceptions.NotFoundException import NotFoundException
-# from project.Exceptions.ConflictException import ConflictException
 from project.Exceptions.Exceptions import NotFoundException, ConflictException, ForbiddenAccessException
 
 class GeneralController:
@@ -19,9 +17,6 @@ class GeneralController:
         except NotFoundException as ex:
             self._logger.warning(ex)
             abort(HTTPStatus.NOT_FOUND)
-        except ForbiddenAccessException as ex:
-            self._logger.warning(ex)
-            abort(HTTPStatus.FORBIDDEN)
 
     def add(self, obj: _class_type) -> None:
         if not obj:
@@ -35,7 +30,7 @@ class GeneralController:
             self._logger.warning(ex)
             abort(HTTPStatus.NOT_FOUND)
 
-    def update(self, obj_id: int, obj: _class_type) -> None:
+    def update(self, obj_id: int, user_id: int, obj: _class_type) -> None:
         if not obj_id:
             abort(HTTPStatus.UNPROCESSABLE_ENTITY)
         try:
@@ -44,7 +39,7 @@ class GeneralController:
             self._logger.warning(ex)
             abort(HTTPStatus.NOT_FOUND)
 
-    def delete(self, obj_id: int) -> None:
+    def delete(self, obj_id: int, user_id: int) -> None:
         try:
             self._service.delete(obj_id)
         except NotFoundException as ex:

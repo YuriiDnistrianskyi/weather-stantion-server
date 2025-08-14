@@ -30,7 +30,7 @@ def get_weather_stations_by_user_id():
     weather_stations_dto = [weather_station.put_into_dto() for weather_station in weather_stations]
     return make_response(jsonify(weather_stations_dto), HTTPStatus.OK)
 
-#only microcontroller
+#only by microcontroller
 @weather_station_bp.post("")
 def create_weather_station() -> Response:
     data = request.get_json()
