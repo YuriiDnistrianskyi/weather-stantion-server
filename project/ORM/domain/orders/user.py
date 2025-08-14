@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from typing import Dict, Any
 from project import db
 from project.ORM.domain.i_dto import IDTO
