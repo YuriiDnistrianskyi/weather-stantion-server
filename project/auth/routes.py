@@ -2,7 +2,7 @@ import jwt
 import logging
 from http import HTTPStatus
 from flask import Blueprint, request, jsonify, make_response, Response, abort
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt
 from project.ORM.domain.orders.user import User
 # from project.auth.jwt_utils import create_jwt, create_access_token, decode_jwt
 from my import jwt_signature
@@ -15,9 +15,9 @@ def login() -> Response:
     user = User.query.filter_by(email=data['email']).first()
 
     if user and user.verify_password(data['password']):
-        access_token = create_access_token(identity=str(user.id))
-        refresh_token = create_refresh_token(identity=str(user.id))
         additional_claims = {'is_admin': user.is_admin}
+        access_token = create_access_token(identity=str(user.id), additional_claims=additional_claims)
+        refresh_token = create_refresh_token(identity=str(user.id), additional_claims=additional_claims)
         return make_response(jsonify(access_token=access_token, refresh_token=refresh_token), HTTPStatus.OK)
     return make_response(jsonify({'message': 'Invalid email or password'}), HTTPStatus.BAD_REQUEST)
 
@@ -25,5 +25,7 @@ def login() -> Response:
 @jwt_required(refresh=True)
 def refresh() -> Response:
     user_id_str = get_jwt_identity()
-    new_access_token = create_access_token(identity=user_id_str)
+    claims = get_jwt()
+    additional_claims = {'is_admin': claims.get('is_admin')}
+    new_access_token = create_access_token(identity=user_id_str, additional_claims=additional_claims)
     return make_response(jsonify({'access_token': new_access_token}), HTTPStatus.OK)
