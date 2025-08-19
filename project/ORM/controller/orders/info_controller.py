@@ -12,33 +12,31 @@ class InfoController(GeneralController):
 
     def check_access(self, obj_id: int, user_id: int) -> bool:
         info = Info.query.filter_by(id=obj_id).first()
-        weather_station_id = info.weather_station_id
-        user_weather_stations = WeatherStation.query.filter_by(id=user_id).all()
-        for weather_station in user_weather_stations:
-            if weather_station.id == weather_station_id:
-                return True
-        return False
+        if info is None:
+            abort(404)
+        weather_station = WeatherStation.query.filter_by(id=info.weather_station_id, user_id=user_id).first()
+        if weather_station is None:
+            return False
+        return True
 
     def get_all_by_weather_station_id(self, weather_station_id, user_id: int) -> List[_class_type]:
-        user_weather_stations = WeatherStation.query.filter_by(id=user_id).all()
-        for weather_station in user_weather_stations:
-            if weather_station.id == weather_station_id:
-                try:
-                    return self._service.get_all_by_weather_station_id(weather_station_id)
-                except NotFoundException as ex:
-                    self._logger.exception(ex)
-                    abort(404)
+        weather_station = WeatherStation.query.filter_by(id=weather_station_id, user_id=user_id).first()
+        if weather_station is not None:
+            try:
+                return self._service.get_all_by_weather_station_id(weather_station_id)
+            except NotFoundException as ex:
+                self._logger.exception(ex)
+                abort(404)
         self._logger.warning(f"User (id = {user_id}) does not have access to WeatherStation (Data) (id = {weather_station_id})")
         abort(403)
 
     def get_by_weather_station_id(self, weather_station_id: int, user_id: int) -> _class_type:
-        user_weather_stations = WeatherStation.query.filter_by(id=user_id).all()
-        for weather_station in user_weather_stations:
-            if weather_station.id == weather_station_id:
-                try:
-                    return self._service.get_by_weather_station_id(weather_station_id)
-                except NotFoundException as ex:
-                    self._logger.exception(ex)
-                    abort(404)
+        weather_station = WeatherStation.query.filter_by(id=weather_station_id, user_id=user_id).first()
+        if weather_station is not None:
+            try:
+                return self._service.get_by_weather_station_id(weather_station_id)
+            except NotFoundException as ex:
+                self._logger.exception(ex)
+                abort(404)
         self._logger.warning(f"User (id = {user_id}) does not have access to WeatherStation (Data) (id = {weather_station_id})")
         abort(403)

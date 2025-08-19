@@ -17,10 +17,10 @@ class GeneralController:
 
     def get_by_id(self, obj_id: int, user_id: int) -> _class_type:
         # if user_id is not None:
-        if not self.check_access(obj_id, user_id):
-            self._logger.warning(f"User (id = {user_id}) does not have access to {self._class_type} (id = {obj_id})")
-            abort(403)
         try:
+            if not self.check_access(obj_id, user_id):
+                self._logger.warning(f"User (id = {user_id}) does not have access to {self._class_type} (id = {obj_id})")
+                abort(403)
             return self._service.get_by_id(obj_id)
         except NotFoundException as ex:
             self._logger.warning(ex)
