@@ -44,12 +44,14 @@ def create_weather_station() -> Response:
 @jwt_required()
 def update_weather_station(weather_station_id: int) -> Response:
     data = request.get_json()
+    user_id = int(get_jwt_identity())
     new_update_weather_station = WeatherStation.create_from_dto(_dict=data)
-    weather_station_controller.update(weather_station_id, new_update_weather_station)
+    weather_station_controller.update(weather_station_id, user_id, new_update_weather_station)
     return make_response(jsonify({"message": "Weather station updated"}), HTTPStatus.OK)
 
 @weather_station_bp.delete("/<int:weather_station_id>")
 @jwt_required()
 def delete_weather_station(weather_station_id: int) -> Response:
-    weather_station_controller.delete(weather_station_id)
+    user_id = int(get_jwt_identity())
+    weather_station_controller.delete(weather_station_id, user_id)
     return make_response(jsonify({"message": "Weather station deleted"}), HTTPStatus.OK)
