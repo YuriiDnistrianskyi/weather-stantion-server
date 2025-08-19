@@ -10,36 +10,7 @@ class UserController(GeneralController):
     _service = user_service
     _class_type = User
 
-    def get_by_id(self, user_id: int, user_id_jwt: int) -> _class_type:
-        if user_id != user_id_jwt:
-            abort(HTTPStatus.FORBIDDEN)
-        return self._service.get_by_id(user_id)
-
-    def add(self, obj: _class_type) -> None:
-        if not obj:
-            abort(HTTPStatus.UNPROCESSABLE_ENTITY)
-        try:
-            self._service.add(obj)
-        except UserIsExistException as ex:
-            self._logger.warning(ex)
-            abort(HTTPStatus.CONFLICT)
-
-    def update(self, obj_id: int, user_id: int, obj: _class_type) -> None:
-        if not obj_id:
-            abort(HTTPStatus.UNPROCESSABLE_ENTITY)
-        if obj_id != user_id:
-            abort(HTTPStatus.FORBIDDEN)
-        try:
-            self._service.update(obj_id, obj)
-        except NotFoundException as ex:
-            self._logger.warning(ex)
-            abort(HTTPStatus.NOT_FOUND)
-
-    def delete(self, obj_id: int, user_id: int) -> None:
-        if obj_id != user_id:
-            abort(HTTPStatus.FORBIDDEN)
-        try:
-            self._service.delete(obj_id)
-        except NotFoundException as ex:
-            self._logger.warning(ex)
-            abort(HTTPStatus.NOT_FOUND)
+    def check_access(self, obj_id: int, user_id: int) -> bool:
+        if obj_id == user_id:
+                return True
+        return False

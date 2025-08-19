@@ -18,6 +18,7 @@ def get_all_weather_stations() -> Response:
 @jwt_required()
 def get_weather_station_by_id(weather_station_id: int) -> Response:
     user_id = int(get_jwt_identity())
+    print("Route")
     weather_station = weather_station_controller.get_by_id(weather_station_id, user_id)
     return_weather_station = weather_station.put_into_dto()
     return make_response(jsonify(return_weather_station), HTTPStatus.OK)
