@@ -17,7 +17,7 @@ def exceeding_low_temperature(email: str, weather_station_name: str, temperature
            f"of {temperature} degrees. Please, turn up the temperature to make the climate more comfortable."
 
     message = Message (
-        subject='Exceeding temperature on weather station',
+        subject='Exceeding low temperature on weather station',
         recipients=[email],
         body=text
     )
