@@ -4,6 +4,7 @@ from project.ORM.domain.orders.info import Info
 from project.ORM.domain.orders.weather_station import WeatherStation
 from project.Exceptions.NotFoundException import NotFoundException
 
+
 class InfoDAO(GeneralDAO):
     _domain_type = Info
 
@@ -18,13 +19,13 @@ class InfoDAO(GeneralDAO):
         weather_station = self._session.query(WeatherStation).filter(WeatherStation.id == weather_station_id).first()
         if weather_station is None:
             raise NotFoundException(f'Weather station not found (id = {weather_station_id})')
-        # data = self._session.query(Info).filter(Info.weather_station_id == weather_station_id).first()
 
-        data_list = self._session.query(Info).filter(Info.weather_station_id == weather_station_id).all()
-        current_data = data_list[0]
-        for data in data_list:
-            if data._date > current_data._date:
-                current_data = data
-        return current_data
+        last_data = self._session.query(Info).filter(Info.weather_station_id == weather_station_id).order_by(Info._date.desc()).first()
 
-        # return data
+        # data_list = self._session.query(Info).filter(Info.weather_station_id == weather_station_id).all()
+        # current_data = data_list[0]
+        # for data in data_list:
+        #     if data._date > current_data._date:
+        #         current_data = data
+        
+        return last_data
