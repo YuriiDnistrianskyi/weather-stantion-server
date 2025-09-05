@@ -1,10 +1,7 @@
-import jwt
-import logging
 from http import HTTPStatus
 from flask import Blueprint, request, jsonify, make_response, Response, abort
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt
 from project.ORM.domain.orders.user import User
-# from project.auth.jwt_utils import create_jwt, create_access_token, decode_jwt
 from my import jwt_signature
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
