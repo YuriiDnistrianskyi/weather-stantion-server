@@ -27,5 +27,5 @@ class InfoDAO(GeneralDAO):
         # for data in data_list:
         #     if data._date > current_data._date:
         #         current_data = data
-        
+
         return last_data

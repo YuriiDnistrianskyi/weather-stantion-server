@@ -5,7 +5,7 @@ from project.ORM.dao import info_dao
 from project.ORM.domain.orders.info import Info
 from project.ORM.domain.orders.weather_station import WeatherStation
 from project.ORM.domain.orders.user import User
-from project.email.emails import *
+from project.email.emails_for_data import *
 
 class InfoService(GeneralService):
     _dao = info_dao
