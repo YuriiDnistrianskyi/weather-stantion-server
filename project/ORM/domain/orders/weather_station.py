@@ -12,6 +12,8 @@ class WeatherStation(db.Model, IDTO):
     user_id = Column(Integer, ForeignKey("User.id"))
     group_id = Column(Integer, ForeignKey("Group.id"))
 
+    temperature_state = Column(String(50))
+
     group = db.relationship("Group", back_populates="weather_station", uselist=False)
     owner = db.relationship("User", backref="weather_stations")
 
@@ -29,4 +31,4 @@ class WeatherStation(db.Model, IDTO):
 
     @staticmethod
     def create_from_dto(_dict: Dict[str, Any]) -> object:
-        return WeatherStation(mac_address=_dict["mac_address"], name=_dict["name"], location=_dict["location"], user_id=_dict["user_id"], group_id=_dict["group_id"])
+        return WeatherStation(mac_address=_dict["mac_address"], name=_dict["name"], location=_dict["location"], user_id=_dict["user_id"], group_id=_dict["group_id"], temperature_state=None)

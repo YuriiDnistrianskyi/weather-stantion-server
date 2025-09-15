@@ -5,7 +5,7 @@ from project import db
 from sqlalchemy import inspect
 from sqlalchemy.orm import Mapper
 
-from project.Models.NotFoundException import NotFoundException
+from project.Exceptions.NotFoundException import NotFoundException
 
 
 class GeneralDAO(ABC):

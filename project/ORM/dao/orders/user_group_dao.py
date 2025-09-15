@@ -1,7 +1,7 @@
 from sqlalchemy import inspect
 from sqlalchemy.orm import Mapper
-from project.Models.ConflictException import ConflictException
-from project.Models.NotFoundException import NotFoundException
+from project.Exceptions.ConflictException import ConflictException
+from project.Exceptions.NotFoundException import NotFoundException
 
 from project.ORM.dao.general_dao import GeneralDAO
 from project.ORM.domain.orders.user_group import UserGroup

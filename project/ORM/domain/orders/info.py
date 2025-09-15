@@ -1,7 +1,9 @@
 from sqlalchemy import Column, Integer, Float, ForeignKey, DateTime
 from typing import Dict, Any
+from datetime import datetime
 from project import db
 from project.ORM.domain.i_dto import IDTO
+from project.ORM.domain.orders.weather_station import WeatherStation
 
 class Info(db.Model, IDTO):
     __tablename__ = "Info"
@@ -26,4 +28,19 @@ class Info(db.Model, IDTO):
 
     @staticmethod
     def create_from_dto(_dict: Dict[str, Any]) -> object:
-        return Info(**_dict)
+        weather_station_id = db.session.query(WeatherStation).filter(
+            WeatherStation.mac_address == _dict.get("mac_address")
+        ).first().id
+
+        date = datetime.now()
+        formatted_date = date.strftime("%Y-%m-%d %H:%M:%S")
+
+        data = {
+            "weather_station_id": weather_station_id,
+            "_date": formatted_date,
+            "temperature": _dict["t"],
+            "humidity": _dict["h"],
+            "pressure": _dict["p"]
+        }
+
+        return Info(**data)

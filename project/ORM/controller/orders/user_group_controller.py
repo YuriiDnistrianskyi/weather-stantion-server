@@ -3,8 +3,8 @@ from http import HTTPStatus
 from project.ORM.controller.general_controller import GeneralController
 from project.ORM.service import user_group_service
 from project.ORM.domain.orders.user_group import UserGroup
-from project.Models.NotFoundException import NotFoundException
-from project.Models.ConflictException import ConflictException
+from project.Exceptions.NotFoundException import NotFoundException
+from project.Exceptions.ConflictException import ConflictException
 
 class UserGroupController(GeneralController):
     _service = user_group_service
